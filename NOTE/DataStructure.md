@@ -37,5 +37,44 @@ DA:
 --Fixed Size
 --Insertion & Deletion
 
+###Linked List
+A linked list is a linear data structure, in which the elements are not stored at contiguous memory locations. 
+The elements in a linked list are linked using pointers.
 
+Node consists DATA & NEXT POINTER.
+Head(First) and Tail(Last)
 
+A:
+Dynamic Data structure(SIZE)
+Ease of Insertion/Deletion
+Efficient Memory Utilization
+
+DA:
+Random Access
+Extra Memory
+
+Operations on Linked Lists:
+Insertion, Deletion, Searching
+
+###Stack
+order with Stack -> LIFO, FILO
+
+Basic Stack operation:
+Push,Pop,top(return the top element), isEmpty,size
+
+Type of Stack:
+Register Stack: This type of stack is also a memory element present in the memory unit and can handle a small amount of data only. 
+The height of the register stack is always limited as the size of the register stack is very small compared to the memory.
+
+Memory Stack: This type of stack can handle a large amount of memory data. 
+The height of the memory stack is flexible as it occupies a large amount of memory data.
+
+A:
+Easy implementation
+Efficient memory utilization
+Fast access time 
+Supports backtracking
+
+DA:
+Limited capacity
+No random access
