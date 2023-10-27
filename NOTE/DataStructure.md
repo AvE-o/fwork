@@ -78,3 +78,52 @@ Supports backtracking
 DA:
 Limited capacity
 No random access
+
+###Queue
+
+We define a queue to be a list in which all additions to the list are made at one end, 
+and all deletions from the list are made at the other end.
+
+-> FIFO like a real queue.
+
+We can access both ends for Queue.
+
+Basic queue operation:
+enqueue,dequeue,peek,rear,isFull,isNull
+
+
+###Tree
+A tree data structure is a hierarchical structure 
+that is used to represent and organize data in a way that is easy to navigate and search.
+
+Basic Terminologies:
+Parent Node, Child node, Root node, Leaf Node, Ancestor of a Node,
+Descendant, Sibling, Level of Node, Neighbour of a Node, SubTree
+
+Basic Operation:
+Create, Insert, Search
+
+3-Traversal:
+Pre order, In order, Post-order.
+
+Application:
+File System, Data Compression, Compiler Design, Database Index
+
+A:
+Efficient Searching: Normal O(log n)
+Easy Organize & Navigate
+Traverse & Manipulate(Recursive nature)
+
+DA:
+Unbalanced Tree would cost search using more time.
+More memory
+
+##Tree Traversal
+1. Depth First Search:
+    in-order -> Left, Root, Right    4 5 2 1 6 3 7
+    pre-order -> Root, Left, Right   1 2 4 5 3 6 7
+    post-order -> Left, Righ, Root   4 5 2 6 7 3 1
+    
+2. Level Order Treversal(BFS):
+    
+    
