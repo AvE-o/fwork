@@ -125,5 +125,33 @@ More memory
     post-order -> Left, Righ, Root   4 5 2 6 7 3 1
     
 2. Level Order Treversal(BFS):
-    
-    
+   
+   
+   
+###Heap
+A Heap is a special Tree-based data structure in which the tree is a complete binary tree.
+min-head/max-heap
+
+*Operations:
+Heapify: a process of creating a heap from an array.
+Insertion: process to insert an element in existing heap time complexity O(log N).
+Deletion: deleting the top element of the heap or the highest priority element, and then organizing the heap and returning the element with time complexity O(log N).
+Peek: to check or find the first (or can say the top) element of the heap.
+
+Application:
+Priority queues
+Heapsort Algorithm
+Memory management
+Graph algorithms
+
+A:
+Efficient insertion and deletion
+Efficient priority queue
+Guaranteed access to the maximum or minimum element
+Space efficiency
+Heap-sort algorithm
+
+DA:
+Lack of flexibility
+Not ideal for searching
+Not a stable data structure
