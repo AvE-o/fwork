@@ -155,3 +155,91 @@ DA:
 Lack of flexibility
 Not ideal for searching
 Not a stable data structure
+
+###Hashing
+Hashing is a technique or process of mapping keys, and values into the hash table by using a hash function. 
+It is done for faster access to elements.
+
+*Components of Hashing
+Key, Hash Function, Hash Table
+
+*Properties of Good hash function
+A hash function that maps every item into its own unique slot is known as a perfect hash function.
+Increase the size of the Hash Table(it is not practical when the number of possibilities is large.)
+
+1.Efficiently computable.  
+2.Should uniformly distribute the keys (Each table position is equally likely for each.
+3.Should minimize collisions.
+4.Should have a low load factor(number of items in the table divided by the size of the table).
+
+
+*How to handle Hash Collisions?
+Separate Chaining
+Open Addressing
+ --Linear Probing(next available slot)
+ --Quadratic Probing(H + k^2)
+ --Double Hashing(Two hash function)
+ 
+Load Factor = Total elements in hash table/ Size of hash table
+
+Rehashing:when the load factor increases to more than its predefined value (the default value of the load factor is 0.75), the complexity increases. So to overcome this, the size of the array is increased (doubled) and all the values are hashed again and stored in the new double-sized array to 
+maintain a low load factor and low complexity.
+
+A:
+Hash provides better synchronization than other data structures.
+Hash tables are more efficient than search trees or other data structures
+Hash provides constant time for searching, insertion, and deletion operations on average.
+
+D/A:
+Hash is inefficient when there are many collisions.
+Hash collisions are practically not avoided for a large set of possible keys.
+Hash does not allow null values. 
+
+
+###Graph Data Structure And Algorithms
+
+*Components of Graph
+Vertices: Vertices are the fundamental units of the graph. Sometimes, vertices are also known as vertex or nodes. 
+Every node/vertex can be labeled or unlabelled.
+
+Edges: Edges are drawn or used to connect two nodes of the graph. It can be ordered pair of nodes in a directed graph. Edges can connect any two nodes in any possible way. There are no rules. 
+Sometimes, edges are also known as arcs. Every edge can be labeled/unlabelled.
+
+*Types of Graph
+1.Null Graph - no edge
+2.Trivial Graph - one single vertex
+3.Undirected Graph
+4.Directed Graph
+5.Connected Graph
+6.Disconnected Graph
+11.Directed Acyclic Graph
+13.Weighted Graph
+
+*Representation of Graphs
+    *Adjacency Matrix
+    *Adjacency List
+When the graph contains a large number of edges then it is good to store it as a matrix
+
+*Basic Operations on Graphs
+Insertion
+Deletion
+Searching
+Traversal
+
+*When to use Graph
+When you need to represent and analyze the relationships between different objects or entities. 
+
+A:
+Graphs are a versatile data structure that can be used to represent a wide range of relationships and data structures.
+They can be used to model and solve a wide range of problems, including pathfinding, data clustering, network analysis, and machine learning.
+Graph algorithms are often very efficient and can be used to solve complex problems quickly and effectively.
+Graphs can be used to represent complex data structures in a simple and intuitive way, making them easier to understand and analyze.
+
+D/A:
+Graphs can be complex and difficult to understand, especially for people who are not familiar with graph theory or related algorithms.
+Creating and manipulating graphs can be computationally expensive, especially for very large or complex graphs.
+Graph algorithms can be difficult to design and implement correctly, and can be prone to bugs and errors.
+Graphs can be difficult to visualize and analyze, especially for very large or complex graphs, which can make it challenging to extract meaningful insights from the data.
+
+
+
