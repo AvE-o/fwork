@@ -241,5 +241,23 @@ Creating and manipulating graphs can be computationally expensive, especially fo
 Graph algorithms can be difficult to design and implement correctly, and can be prone to bugs and errors.
 Graphs can be difficult to visualize and analyze, especially for very large or complex graphs, which can make it challenging to extract meaningful insights from the data.
 
+###Breadth First Search:
+It starts at the root of the graph and visits all nodes at the current depth level before moving on to the nodes at the next depth level.
+using queue
+
+###Depth First Search:
+using stack
+*Applications of DFS
+Detecting cycle in a graph[Finding back edge]
+Path Finding
+Topological Sorting
+
+A:
+Memory requirement is only linear with respect to the search graph.
+
+DA:
+The disadvantage of Depth-First Search is that there is a possibility that it may down the left-most path forever.
+Depth-First Search is not guaranteed to find the solution.
+And there is no guarantee to find a minimal solution, if more than one solution.
 
 
