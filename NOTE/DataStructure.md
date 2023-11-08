@@ -261,3 +261,11 @@ Depth-First Search is not guaranteed to find the solution.
 And there is no guarantee to find a minimal solution, if more than one solution.
 
 
+###Matrix
+A matrix represents a collection of numbers arranged in an order of rows and columns. It is necessary to enclose the elements of a matrix in parentheses or brackets.
+2-D:
+int arr[number_of_rows][number_of_columns]; 
+
+*Traversing
+Row Major Order[row by row]
+Column Major Order[column by column]
