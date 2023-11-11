@@ -241,5 +241,18 @@ Creating and manipulating graphs can be computationally expensive, especially fo
 Graph algorithms can be difficult to design and implement correctly, and can be prone to bugs and errors.
 Graphs can be difficult to visualize and analyze, especially for very large or complex graphs, which can make it challenging to extract meaningful insights from the data.
 
+### Set
+Unique Value with operation like "union,intersection,difference"
 
+Hash-Based Set & Tree-Based Set
 
+Set data structures are commonly used in a variety of computer science applications, 
+including algorithms, data analysis, and databases. The main advantage of using a set data structure is that it allows you to perform operations on a collection of elements in an efficient and organized way.
+
+*Unordered Set & Ordered Set
+
+Set is different from array and map.
+
+### Map
+(also known as a dictionary, associative array, or hash map)
+is a collection of key[unique identifier]-value pair
