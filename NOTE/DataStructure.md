@@ -241,6 +241,7 @@ Creating and manipulating graphs can be computationally expensive, especially fo
 Graph algorithms can be difficult to design and implement correctly, and can be prone to bugs and errors.
 Graphs can be difficult to visualize and analyze, especially for very large or complex graphs, which can make it challenging to extract meaningful insights from the data.
 
+<<<<<<< HEAD
 ###Breadth First Search:
 It starts at the root of the graph and visits all nodes at the current depth level before moving on to the nodes at the next depth level.
 using queue
@@ -259,8 +260,14 @@ DA:
 The disadvantage of Depth-First Search is that there is a possibility that it may down the left-most path forever.
 Depth-First Search is not guaranteed to find the solution.
 And there is no guarantee to find a minimal solution, if more than one solution.
+=======
+### Set
+Unique Value with operation like "union,intersection,difference"
+>>>>>>> 85bd07c0a93f86d9a95ea7bfc63481076fa1976f
 
+Hash-Based Set & Tree-Based Set
 
+<<<<<<< HEAD
 ###Matrix
 A matrix represents a collection of numbers arranged in an order of rows and columns. It is necessary to enclose the elements of a matrix in parentheses or brackets.
 2-D:
@@ -269,3 +276,15 @@ int arr[number_of_rows][number_of_columns];
 *Traversing
 Row Major Order[row by row]
 Column Major Order[column by column]
+=======
+Set data structures are commonly used in a variety of computer science applications, 
+including algorithms, data analysis, and databases. The main advantage of using a set data structure is that it allows you to perform operations on a collection of elements in an efficient and organized way.
+
+*Unordered Set & Ordered Set
+
+Set is different from array and map.
+
+### Map
+(also known as a dictionary, associative array, or hash map)
+is a collection of key[unique identifier]-value pair
+>>>>>>> 85bd07c0a93f86d9a95ea7bfc63481076fa1976f
