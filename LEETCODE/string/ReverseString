@@ -1,0 +1,64 @@
+# 344.Reverse String
+
+### 瞎写写
+// in-place O(1) no extra space
+// v1 想太多了
+class Solution {
+    public void reverseString(char[] s) {
+        // 反过来遍历一遍? [no!]
+        char[] result = new char[];
+        for (int i = s.length - 1; i > 0; i--) {
+            s
+        }
+
+    }
+}
+
+// v2
+class Solution {
+    public void reverseString(char[] s) {
+        int i = 0;
+        int j = s.length - 1;
+
+        while (i < j) {
+            char temp = s[i];
+            s[i] = s[j];
+            s[j] = temp;
+        }
+
+        return s;
+    }
+}
+
+### Solution
+
+# 按位异或赋值操作符
+class Solution {
+    public void reverseString(char[] s) {
+        int l = 0;
+        int r = s.length - 1;
+        while (l < r) {
+            s[l] ^= s[r];  //构造 a ^ b 的结果，并放在 a 中
+            s[r] ^= s[l];  //将 a ^ b 这一结果再 ^ b ，存入b中，此时 b = a, a = a ^ b
+            s[l] ^= s[r];  //a ^ b 的结果再 ^ a ，存入 a 中，此时 b = a, a = b 完成交换
+            l++;
+            r--;
+        }
+    }
+}
+
+// 第二种方法用temp来交换数值更多人容易理解些
+class Solution {
+    public void reverseString(char[] s) {
+        int l = 0;
+        int r = s.length - 1;
+        while(l < r){
+            char temp = s[l];
+            s[l] = s[r];
+            s[r] = temp;
+            l++;
+            r--;
+        }
+    }
+}
+

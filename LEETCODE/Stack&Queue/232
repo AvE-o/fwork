@@ -1,0 +1,102 @@
+#232 Implement Queue using Stack
+
+class MyQueue {
+    // two stack use here
+    Stack<Integer> stackIn;
+    Stack<Integer> stackOut;
+
+    public MyQueue() {
+        stackIn = new Stack<>();
+        stackOut = new Stack<>();
+    }
+
+    public void push(int x) {
+        stackIn.push(x);
+    }
+
+    public int pop() {
+        dumpStackIn();
+        return stack2.pop();
+    }
+
+    public int peek() {
+         dumpStackIn();
+         return stack2.peek();
+    }
+
+    public boolean empty() {
+        return stackOut.isEmpty() && stackIn.isEmpty();
+    }
+
+    private void dumpStackIn() {
+        if(!stackOut.isEmpty()) return;
+        while (!stackIn.isEmpty()) {
+            stackOut.push(stackIn.pop());
+        }
+    }
+}
+
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue obj = new MyQueue();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.peek();
+ * boolean param_4 = obj.empty();
+ */
+
+ #xxx Implement Stack using Queue
+
+class MyStack {
+    Queue<Integer> queue1;
+    Queue<Integer> queue2;
+
+    public MyStack() {
+        queue1 = new LinkedList<>();
+        queue2 = new LinkedList<>();
+    }
+
+    public void push(int x) {
+        queue2.offer(x);
+        while (!queue1.isEmpty()) {
+            queue2.offer(queue1.poll());
+        }
+        Queue<Integer> queueTemp;
+        queueTemp = queue1;
+        queue1 = queue2;
+        queue2 = queueTemp;
+    }
+
+    public int pop() {
+        return queue1.pull();
+    }
+
+    public int top() {
+        return queue1.peek();
+    }
+
+    public boolean isEmpty() {
+        return queue1.isEmpty();
+    }
+
+
+}
+
+class MyStack {
+    Queue<Integer> queue;
+
+    public myStack() {
+        queue = new LinkedList<>();
+    }
+
+    public void push (int x) {
+        queue.offer(x);
+        int size = queue.size();
+        while (size-- > 1) {
+            queue.offer(queue.poll());
+        }
+
+    xxxxxxxxxxxxxxxx 剩下就是正常操作了
+    }
+}

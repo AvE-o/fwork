@@ -1,0 +1,37 @@
+# 替换数字
+
+### 瞎写写
+
+class Solution {
+    public String reverseStr(String s) {
+        // 检测数字 + 替换为 "number"
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if (Character.isDigit(s.charAt(i))) {
+                res.append("number");
+
+            } else {
+                res.append(s.charAt(i));
+            }
+        }
+    }
+}
+
+
+### Solution
+
+import java.util.Scanner;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String s = in.nextLine();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if (Character.isDigit(s.charAt(i))) {
+                sb.append("number");
+            }else sb.append(s.charAt(i));
+        }
+        System.out.println(sb);
+    }
+}
