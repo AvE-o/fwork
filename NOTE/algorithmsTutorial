@@ -1,0 +1,1273 @@
+#链表(LinkedList)
+-双指针技巧秒杀七道链表题目
+public class ListNode {
+    int val;
+    ListNode next;
+    ListNode() {}
+    ListNode(int val) {this.val = val;}
+    ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+}
+
+1.合并两个有序链表
+//leetcode 21
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(-1);
+        ListNode p = dummy;
+        ListNode p1 = list1, p2 = list2;
+
+        while (p1 != null && p2 != null) {
+            if (p1.val > p2.val) {
+                p.next = p2;
+                p2 = p2.next;
+            } else {
+                p.next = p1;
+                p1 = p1.next;
+            }
+            p = p.next;
+        }
+        if (p1 != null) {
+            p.next = p1;
+        }
+
+        if (p1 != null) {
+            p.next = p2;
+        }
+        return dummy.next;
+    }
+}
+
+2.单链表的分解
+//leetcode 86
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+        ListNode dummy = new ListNode(-1);
+        ListNode dummy2 = new ListNode(-2);
+        ListNode p1 = dummy, p2 = dummy2;
+        while (head != null) {
+            if (head.val < x) {
+                p1.next = head;
+                p1 = p1.next;
+            } else {
+                p2.next = head;
+                p2 = p2.next;
+            }
+            ListNode temp = head.next;
+            head.next = null;
+            head = temp;
+
+        }
+        p1.next = dummy2.next;
+        return dummy.next;
+    }
+}
+
+3.合并K个有序链表
+//leetcode 23
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        ListNode dummy = new ListNode(-1);
+        ListNode p = dummy;
+        //minHeap
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(lists.length, (a, b) -> (a.val - b.val));
+        for (ListNode head : lists) {
+            if (head != null) {
+                pq.add(head);
+            }
+        }
+        while (!pq.isEmpty()) {
+            ListNode node = pq.poll();
+            p.next = node;
+            if (node.next != null) {
+                pd.add(node.next);
+            }
+            p = p.next;
+        }
+        return dummy.next;
+    }
+}
+
+4.单链表的倒数第K个节点
+//leetcode 19
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode x = removeFromBack(dummy, n + 1);
+        x.next = x.next.next;
+        return dummy.next;
+
+    }
+
+    private ListNode removeFromBack(ListNode head, int k) {
+        ListNode p1 = head;
+        for (int i = 0; i < k; i++) {
+            p1 = p1.next;
+        }
+        ListNode p2 = head;
+        while (p1 != null) {
+            p1 = p1.next;
+            p2 = p2.next;
+        }
+
+        return p2;
+    }
+}
+
+5.单链表的中点
+//leetcode 876
+
+class solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode slow = dummy;
+        ListNode fast = dummy;
+
+        while (fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+
+        return slow;
+    }
+}
+
+6.判断链表是否包含环
+//leetcode 142
+
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+
+            if (fast == slow) {
+                break;
+            }
+        }
+        if (fast == null || fast.next == null) {
+            return null;
+        }
+
+        slow = head;
+        while (slow != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
+    }
+}
+
+7.两个链表是否相交
+//leetcode 160
+
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode a = headA, b = headB;
+        while (a != b) {
+            if (a == null) {
+                a = headB;
+            } else {
+                a = a.next;
+            }
+
+            if (b == null) {
+                b = headA;
+            } else {
+                b = b.next;
+            }
+        }
+        return a;
+    }
+}
+
+-递归魔法: 反转单链表
+
+1.递归反转整个链表
+//leetcode 206
+public class ListNode {
+    int val;
+    ListNode next;
+    ListNode() {}
+    ListNode(int val) {
+        this.val = val;
+    }
+    ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+
+}
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode last = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return last;
+    }
+}
+
+2.反转链表前 N 个节点
+
+ListNode successor = null;
+ListNode reverseN(ListNode head, int n) {
+    if (n == 1) {
+        successor = head.next; //记录反转处最后一个节点
+        return head;
+    }
+
+    ListNode last = reverseN(head.next, n - 1);
+    head.next.next = head;
+    head.next = successor;
+    return last;
+
+}
+
+3.反转链表的一部分
+//leetcode 92
+class Solution {
+    ListNode successor = null;
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        if (left == 1) {
+            return reverseN(head, right);
+        }
+
+        head.next = reverseBetween(head, left - 1, right - 1);
+        return head;
+    }
+
+
+    public ListNode reverseN(ListNode head, int right) {
+        if (right == 1) {
+            successor = head.next;
+            return head;
+        }
+
+        ListNode last = reverseN(head, right - 1);
+        head.next.next = head;
+        head.next = successor;
+        return last;
+    }
+}
+
+-如何 K 个一组反转链表
+//leetcode 25
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode cur = head;
+        int count = 0;
+        while (cur != null && count != k) {
+            cur = cur.next;
+            count++;
+        }
+
+        if (count == k) {
+            cur = reverseKGroup(cur, count);
+            while (count -- > 0) {
+                ListNode next = head.next;
+                head.next = cur;
+                cur = head;
+                head = next;
+            }
+            head = cur;
+        }
+        return head;
+    }
+
+}
+
+-如何判断回文链表
+//leetcode 234
+
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode slow, fast;
+        slow = fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        if (fast != null) {
+            slow = slow.next;
+        }
+
+        ListNode left = head;
+        ListNode right = reverse(slow);
+
+        while (right != null) {
+            if (left.val != right.val) {
+                return false;
+            }
+            left = left.next;
+            right = right.next;
+        }
+        return true;
+    }
+
+    public ListNode reverse(ListNode head) {
+        ListNode pre = null;
+        ListNode cur = head;
+
+        while (cur != null) {
+            ListNode temp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = temp;
+        }
+        return pre;
+    }
+}
+
+#数组(Array)
+-双指针技巧秒杀七道数组题目
+
+1.快慢指针技巧
+//leetcode 26
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int fast = 0, slow = 0;
+        while (fast != nums.length) {
+            if (nums[slow] != nums[fast]) {
+                slow++;
+                nums[slow] = nums[fast];
+
+            }
+            fast++;
+        }
+        return slow + 1;
+    }
+}
+
+//leetcode 83
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode fast = dummy, slow = dummy;
+
+        while (fast != null) {
+            if (slow.val != fast.val) {
+                slow.next = fast;
+                slow = slow.next;
+            }
+            fast = fast.next;
+        }
+        slow.next = null;
+        return dummy.next;
+    }
+}
+
+//leetcode 27
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int slow = 0, fast = 0;
+        while (fast != nums.length) {
+            if (nums[fast] != val) {
+                nums[slow] = nums[fast];
+                slow++;
+            }
+            fast++;
+        }
+        return slow;
+    }
+}
+
+//leetcode 283
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int zero = 0;
+        int slow = 0, fast = 0;
+        while (fast < nums.length) {
+            if (nums[fast] != zero) {
+                nums[slow] = nums[fast];
+                slow++;
+            }
+            fast++;
+        }
+        while (slow < nums.length) {
+            nums[slow] = 0;
+            slow++;
+        }
+    }
+}
+
+2.左右指针的常用算法
+-二分查找
+//leetcode 167
+class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        int i = 0;
+        int j = numbers.length - 1;
+
+        while (i < j) {
+            int sum = numbers[i] + numbers[j];
+            if (sum == target) {
+                return new int[]{i + 1, j + 1};
+            } else if (sum > target) {
+                j--;
+            } else {
+                i++;
+            }
+        }
+        return new int[]{-1, -1};
+    }
+}
+
+3.反转数组
+//leetcode 344
+class Solution {
+    public void reverseString(char[] s) {
+        int i = 0, j = s.length - 1;
+        while (i < j) {
+            char temp = s[i];
+            s[i] = s[j];
+            s[j] = temp;
+            i++;
+            j--;
+        }
+    }
+}
+
+4.回文串判断
+//leetcode 5
+class Solution {
+    public String longestPalindrome(String s) {
+        String pali = "";
+        for (int i = 0; i < s.length(); i++) {
+            String res1 = palindrome(s, i, i);
+            String res2 = palindrome(s, i, i + 1);
+
+            pali = pali.length() > res1.length() ? pali : res1;
+            pali = pali.length() > res2.length() ? pali : res2;
+        }
+        return pali;
+
+    }
+
+    public String palindrome(String s, int l, int r) {
+        if (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
+            l--;
+            r++;
+        }
+        return s.substring(l + 1, r);
+    }
+}
+
+-小而美的算法技巧：前缀和数组
+1.一维数组中的前缀和
+//leetcode 303
+class NumArray {
+    private int[] nums;
+
+    public NumArray(int[] nums) {
+        this.nums = nums;
+    }
+
+    public int sumRange(int left, int right) {
+        int sum = 0;
+        for (int i = left; i <= right; i++) {
+            sum += nums[i];
+        }
+        return sum;
+    }
+}
+
+class NumArray {
+    private int[] preSum;
+
+    public NumArray(int[] nums) {
+        preSum = new int[nums.length + 1];
+        for (int i = 1; i < preSum.length; i++) {
+            preSum[i] = nums[i - 1] + preSum[i - 1];
+        }
+    }
+
+    public int sumRange(int left, int right) {
+        return preSum[right + 1] - preSum[left];
+    }
+}
+
+2.二维矩阵中的前缀和
+//leetcode 304
+class NumMatrix {
+    private int[][] matrix;
+    public NumMatrix(int[][] matrix) {
+        this.matrix = matrix;
+    }
+
+    public int sumRegion(int row1, int col1, int row2, int col2) {
+        int sum = 0;
+        for (int i = row1; i <= row2; i++) {
+            for (int j = col1; j <= col2; j++) {
+                sum += matrix[i][j];
+            }
+        }
+        return sum;
+    }
+}
+
+-小而美的算法技巧：差分数组
+
+class Difference {
+    private int[] diff;
+
+    public Difference(int[] nums) {
+        assert nums.length > 0;
+        diff = new int[nums.length];
+        diff[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            diff[i] = nums[i] - nums[i - 1];
+        }
+    }
+
+    public void increment(int i, int j, int val) {
+        diff[i] += val;
+        if (j + 1 < diff.length) {
+            diff[j + 1] -= val;
+        }
+    }
+
+    public int[] result() {
+        int[] res = new int[diff.length];
+        res[0] = diff[0];
+        for (int i = 1; i < diff.length; i++) {
+            res[i] = res[i - 1] + diff[i];
+        }
+        return res;
+    }
+}
+//leetcode 370
+int[] getModifiedArray(int length, int[][] updates) {
+    int[] res = new int[length];
+    int[] diff = res;
+    for (int[] update : updates) {
+        int i = update[0];
+        int j = update[1];
+        int val = update[3];
+        diff[i] += val;
+        if (j < diff.length) {
+            diff[j] -= val;
+        }
+    }
+    res[0] = diff[0];
+    for (int i = 1; i < diff.length; i++) {
+        res[i] = res[i - 1] + diff[i];
+    }
+    return res;
+}
+
+//leetcode 1109
+
+class Difference {
+    private int[] diff;
+
+    public Difference(int[] nums) {
+        assert nums.length > 0;
+        diff = new int[nums.length];
+        diff[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            diff[i] = nums[i] - nums[i - 1];
+        }
+    }
+
+    public void increment(int i, int j, int val) {
+        diff[i] += val;
+        if (j + 1 < diff.length) {
+            diff[j + 1] -= val;
+        }
+    }
+
+    public int[] result() {
+        int[] res = new int[diff.length];
+        res[0] = diff[0];
+        for (int i = 1; i < diff.length; i++) {
+            res[i] = res[i - 1] + diff[i];
+        }
+        return res;
+    }
+}
+
+class Solution {
+    public int[] corpFlightBookings(int[][] bookings, int n) {
+        int[] res = new int[n];
+        Difference df = new Difference(res);
+        for (int[] book : bookings) {
+            int i = book[0] - 1;
+            int j = book[1] - 1;
+            int val = book[2];
+            df.increment(i, j, val);
+        }
+        return df.result();
+    }
+}
+
+//leetcode 1094
+
+class Solution {
+    public boolean carPooling(int[][] trips, int capacity) {
+        int[] res = new int[1001];
+        Difference df = new Difference(res);
+
+        for (int[] trip : trips) {
+            int i = trip[1];
+            int j = trip[2] - 1;
+            int val = trip[0];
+            df.increment(i, j, val);
+        }
+        res = df.result();
+
+        for (int i = 0; i < res.length; i++) {
+            if (res[i] > capacity) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+-二维数组的花式遍历技巧
+//leetcode 151
+
+//leetcode 48
+class Solution {
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+
+        for (int[] row : matrix) {
+            reverse(row);
+        }
+    }
+
+    public void reverse(int[] row) {
+        int i = 0, j = row.length - 1;
+        while (i < j) {
+            int temp = row[i];
+            row[i++] = row[j];
+            row[j--] = temp;
+        }
+    }
+}
+
+矩阵的螺旋遍历
+//leetcode 54
+
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        int up = 0, low = m - 1;
+        int left = 0, right = n - 1;
+
+        List<Integer> res = new ArrayList<>();
+
+        while (res.size() < m * n) {
+            if (up <= low) {
+                for (int i = left; i <= right; i++) {
+                    res.add(matrix[up][i]);
+                }
+                up++;
+            }
+
+            if (left <= right) {
+                for (int i = up; i <= low; i++) {
+                    res.add(matrix[i][right]);
+                }
+                right--;
+            }
+
+            if (up <= low) {
+                for (int i = right; i >= left; i--) {
+                    res.add(matrix[low][i]);
+                }
+                low--;
+            }
+
+            if (left <= right) {
+                for (int i = low; i >= up; i--) {
+                    res.add(matrix[i][left]);
+                }
+                left++;
+            }
+        }
+        return res;
+
+
+    }
+}
+
+我写了首诗，把滑动窗口算法变成了默写题
+
+
+滑动窗口大概框架
+void slidingWindow(String s) {
+
+    HashMap<String, Integer> window = new HashMap<>();
+
+    int left = 0, right = 0;
+    while (right < s.length()) {
+        char c = s.charAt(right);
+        window.put(c, window.getOrDefault(c, 0) + 1);
+        right++
+
+        //xxxxx
+
+        while (left < right && window need shrink) {
+            char d = s.charAt(left);
+            window.put(d, window.get(d) - 1);
+            left++;
+        }
+    }
+}
+//leetcode 76
+//leetcode 438
+//leetcode 3
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        HashMap<Character, Integer> map = new HashMap<>();
+
+        int left = 0, right = 0;
+        int length = 0;
+
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            right++;
+            map.put(c, map.getOrDefault(c, 0) + 1);
+            while (map.get(c) > 1) {
+                char d = s.charAt(left);
+                left++;
+                map.put(d, map.get(d) - 1);
+            }
+
+            length = Math.max(length, right - left);
+        }
+
+        return length;
+    }
+}
+
+-滑动窗口算法延伸：Rabin Karp 字符匹配算法
+
+8234
+int number;
+for (int i = 0; i < s.length; i++) {
+    number = number * 10 + (s.charAt(i) - '0');
+}
+
+/* 在最低位添加一个数字 */
+int number = 8264;
+// number 的进制
+int R = 10;
+// 想在 number 的最低位添加的数字
+int appendVal = 3;
+// 运算，在最低位添加一位
+number = R * number + appendVal;
+
+/* 在最高位删除一个数字 */
+int number = 8264;
+// number 的进制
+int R = 10;
+// number 最高位的数字
+int removeVal = 8;
+// 此时 number 的位数
+int L = 4;
+// 运算，删除最高位数字
+number = number - removeVal * R^(L-1);
+// 此时 number = 264
+
+class Solution {
+    public List<String> findRepeatedDnaSequences(String s) {
+        int[] nums = new int[s.length()];
+        for (int i =0; i < s.length(); i++) {
+            switch (s.charAt(i)) {
+                case 'A':
+                    nums[i] = 0;
+                    break;
+                case 'G':
+                    nums[i] = 1;
+                    break;
+                case 'C':
+                    nums[i] = 2;
+                    break;
+                case 'T':
+                    nums[i] = 3;
+                    break;
+            }
+
+        }
+
+        HashSet<Integer> seen = new HashSet<>();
+        HashSet<String> res = new HashSet<>();
+
+        int L = 10;
+        int R = 4;
+        int RL = (int) Math.pow(R, L - 1);
+        int windowhash = 0;
+
+        int left = 0, right = 0;
+        while (right < nums.length) {
+            windowhash = R * windowhash + nums[right];
+            right++;
+
+            if (right - left == L) {
+                if (seen.contains(windowhash)) {
+                    res.add(s.substring(left, right));
+                } else {
+                    seen.add(windowhash);
+                }
+                windowhash = windowhash - nums[left] * RL;
+                left++;
+            }
+        }
+        return new LinkedList<>(res);
+    }
+}
+
+-我写了首诗，把二分搜索算法变成了默写题
+
+class Solution {
+    public int search(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] > target) {
+                right = mid - 1;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            }
+        }
+        return -1;
+    }
+}
+
+-带权重的随机选择算法
+
+//leetcode 526.Random Pick with Weight
+
+class Solution {
+    private int[] preSum;
+    private Random rand = new Random()
+
+    public Solution(int[] w) {
+        int n = w.length;
+        preSum = new int[n + 1];
+        preSum[0] = 0;
+        for (int i = 1; i <= n; i++) {
+            preSum[i] = preSum[i - 1] + w[i - 1];
+        }
+
+    }
+
+    public int pickIndex() {
+        int n = preSum.length;
+        int target = rand.nextInt(preSum[n - 1]) + 1;
+
+        return left_bound(preSum, target) - 1;
+    }
+
+    public int left_bound(int[] preSum, int target) {
+        int left = 0, right = preSum.length - 1;
+
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (preSum[mid] == target) {
+                return target;
+            } else if (preSum[mid] > target) {
+                right = mid;
+            } else if (preSum[mid] < target) {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+}
+
+-二分搜索怎么用？我又总结了套路
+//leetcode 875.Koko Eating Bananas
+
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        int left = 1;
+        int right = 1000000000 + 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (f(piles, mid) == h) {
+                right = mid;
+            } else if (f(piles, mid) > h) {
+                left = mid + 1;
+            } else if (f(piles, mid) < h) {
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+    public long f(int[] piles, int h) {
+        long hour = 0;
+        for (int i = 0; i < piles.length; i++) {
+            hour += piles[i] / h;
+            if (piles[i] % h > 0) {
+                hour++;
+            }
+        }
+        return hour;
+    }
+}
+
+//leetcode 1011.Capacity To Ship Packages Within D Days
+
+class Solution {
+    public int shipWithinDays(int[] weights, int days) {
+        int left = 0;
+
+        int right = 1;
+        for (int w : weights) {
+            left = Math.max(left, w);
+            right += w;
+        }
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (f(weights, mid) == days) {
+                right = mid;
+            } else if (f(weights, mid) > days) {
+                left = mid + 1;
+            } else if (f(weights, mid) < days) {
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+    public int f(int[] weights, int x) {
+        int days = 0;
+   for (int i = 0; i < weights.length;) {
+            int cap = x;
+            while (i < weights.length) {
+                if (cap < weights[i]) break;
+                else cap -= weights[i];
+                i++;
+            }
+            days++;
+        }
+        return days;
+    }
+
+}
+
+-田忌赛马背后的算法决策
+//leetcode 870.Advantage Shuffle
+class Solution {
+    public int[] advantageCount(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        PriorityQueue<int[]> maxpq = new PriorityQueue<>(
+            (int[] pair1, int[] pair2) -> {
+                return pair2[1] - pair1[1];
+            }
+        );
+        for (int i = 0; i < nums2.length; i++) {
+            maxpq.offer(new int[]{i, nums2[i]});
+        }
+
+        Arrays.sort(nums1);
+        int left = 0, right = n - 1;
+        int[] res = new int[n];
+
+        while(!maxpq.isEmpty()) {
+            int[] pair = maxpq.poll();
+            int i = pair[0], maxval = pair[1];
+            if (maxval < nums1[right]) {
+                res[i] = nums1[right];
+                right--;
+            } else {
+                res[i] = nums1[left];
+                left++;
+            }
+        }
+        return res;
+    }
+}
+
+-常数时间删除-查找数组中的任意元素
+//leetcode 380.Insert Delete GetRandom O(1)
+
+class RandomizedSet {
+
+    public RandomizedSet() {
+
+    }
+
+    public boolean insert(int val) {
+
+    }
+
+    public boolean remove(int val) {
+
+    }
+
+    public int getRandom() {
+
+    }
+}
+
+一道数组去重的算法题把我整不会了
+//leetcode 316
+
+class Solution {
+    public String removeDuplicateLetters(String s) {
+
+    }
+}
+
+//层序遍历
+void levelTraverse(TreeNode root) {
+    Queue<TreeNode> q = new LinkedList<>();
+    q.offer(root);
+
+    while (!q.isEmpty()) {
+        int size = q.size();
+
+        for (int i = 0; i < size; i++) {
+            TreeNode cur = q.poll();
+            if (cur.left != null) {
+                q.offer(cur.left);
+            }
+            if (cur.right != null) {
+                q.offer(cur.right);
+            }
+        }
+    }
+
+}
+
+public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode() {}
+    TreeNode(int val) {
+        this.val = val;
+    }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val
+        this.right = right;
+        this.left = left;
+    }
+}
+
+//leetcode 515
+
+class Solution {
+    public List<Integer> largestValues(TreeNode root) {
+        if (root == null) return;
+        Queue<TreeNode> q = new LinkedList<>();
+        List<Integer> result = new ArrayList<>();
+        q.offer(root);
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            int max = 0;
+
+            for (int i = 0; i < size; i++) {
+                TreeNode cur = q.poll();
+                max = Math.max(max, cur.val);
+                if (cur.left != null) {
+                    q.offer(cur.left);
+                }
+                if (cur.right != null) {
+
+                    q.offer(cur.right);
+                }
+            }
+            result.add(max);
+        }
+        return result;
+    }
+}
+
+//leetcode 226
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        traverse(root);
+        return root;
+    }
+    void traverse(TreeNode root) {
+    if (root == null) {
+        return;
+    }
+    TreeNode tmp = root.left;
+    root.left = root.right;
+    root.right = tmp;
+
+    traverse(root.left);
+    traverse(root.right);
+    }
+}
+
+//leetcode 116
+
+class Solution {
+    public Node connect(Node root) {
+        if (root == null) return null;
+        traverse(root.left, root.right);
+        return root;
+    }
+
+    void traverse(Node left, Node right) {
+        if (left == null || right == null) {
+            return ;
+        }
+        left.next = right;
+
+        traverse(left.left, left.right);
+        traverse(right.left, right.right);
+
+        traverse(left.right, right.left);
+    }
+}
+
+//leetcode 114
+
+class Solution {
+    public void flatten(TreeNode root) {
+        if (root == null) return;
+
+        flatten(root.left);
+        flatten(root.right);
+
+        TreeNode left = root.left;
+        TreeNode right = root.right;
+
+        root.left = null;
+        root.right = left;
+
+        TreeNode p = root;
+        while (p.right != null) {
+            p = p.right;
+        }
+        p.right = right;
+    }
+}
+
+
+//leetcode 654
+
+class Solution {
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        return build(nums, 0, nums.length - 1);
+    }
+
+    public TreeNode build(int[] nums, int lo, int hi) {
+        if (lo > hi) {
+            return null;
+        }
+
+        int index = -1, maxVal = Integer.MIN_VALUE;
+        for (int i = lo; i <= hi; i++) {
+            if (maxVal < nums[i]) {
+                maxVal = nums[i];
+                index = i;
+            }
+        }
+
+        TreeNode root = new TreeNode(maxVal);
+
+        root.left = build(nums, lo, index - 1);
+        root.right = build(nums, index + 1, hi);
+
+        return root;
+    }
+}
+
+//leetcode 105
+
+class Solution {
+    HashMap<Integer, Integer> valToIndex = new HashMap<>();
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        for (int i = 0; i < inorder.length; i++) {
+            valToIndex.put(inorder[i], i);
+        }
+
+    return build(preorder, 0, preorder.length - 1,
+                 inorder, 0, inorder.length - 1);
+    }
+
+    public TreeNode build(int[] preorder, int preStart, int preEnd,
+                          int[] inorder, int inStart, int inEnd) {
+
+        if (preStart > preEnd) {
+            return null;
+        }
+
+        int rootVal = preorder[preStart];
+        int index = valToIndex.get(rootVal);
+        int leftSize = index - inStart;
+
+        TreeNode root = new TreeNode(rootVal);
+
+        root.left = build(preorder, preStart + 1, preStart + leftSize,
+                          inorder, inStart, index - 1);
+
+        root.right = build(preorder, preStart + leftSize + 1, preEnd,
+                          inorder, index + 1, inEnd);
+
+        return root;
+
+    }
+}
+
+//leetcode 106
+
+class Solution {
+    HashMap<Integer, Integer> valToIndex = new HashMap<>();
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        for (int i = 0; i < inorder.length; i++) {
+            valToIndex.put(inorder[i], i);
+        }
+        return build(inorder, 0, inorder.length - 1,
+                 postorder, 0, postorder.length - 1);
+    }
+
+    public TreeNode build(int[] inorder, int inStart, int inEnd,
+                          int[] postorder, int postStart, int postEnd) {
+        if (inStart > inEnd) {
+            return null;
+        }
+
+        int rootVal = postorder[postEnd];
+        int index = valToIndex.get(rootVal);
+        int leftSize = index - inStart;
+
+        TreeNode root = new TreeNode(rootVal);
+
+        root.left = build(inorder, inStart, index - 1,
+                          postorder, postStart, postStart + leftSize - 1);
+
+        root.right = build(inorder, index + 1, inEnd,
+                          postorder, postStart + leftSize, postEnd - 1);
+
+        return root;
+
+
+    }
+}

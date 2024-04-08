@@ -1,0 +1,86 @@
+#API
+POST -> create
+GET -> read
+PUT -> update
+DELETE -> delete
+-> need gson
+public class RestApi {
+    public static void main(String[] args) throw Exception {
+        Transcript transcript = new Transcript();
+        transcript.setAudio_url("xxxxxxxxxxxxxxxxxxx");
+        Gson gson = new Gson();
+        String jsonRequest = gson.toJson(transcript);
+
+        //POST
+        HttpRequest postRequest = HttpRequest.newBuilder();
+            .uri(new URI("xxxx"))
+            .header("Authorization", "xxxxxx")
+            //这里是用gson
+            .POST(BodyPublishers.ofString("jsonRequest")) // .POST(BodyPublishers.ofString("xxxxxxxxxxxxxxxxxxx"))
+            .build();
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        System.out.println(postResponse.body());
+
+        transcript = gson.fromJson(postResponse.body(), Transcript.class);
+        System.out.println(transcript.getId());
+
+
+        //GET
+        HttpRequest getRequest = HttpRequest.newBuilder();
+            .uri(new URI("xxxx" + transcript.getId()))
+            .header("Authorization", "xxxxxx")
+            .build();
+
+        while (ture) {
+            HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+            transcript = gson.fromJson(getResponse.body(), Transcript.class);
+            if ("completed".equals(transcript.getStatus()) || "error".equals(transcript.getStatus()) {
+                break;
+            }
+            Thread.sleep(1000);
+        }
+
+        System.out.println("Transcription completed!");
+        System.out.println(transcript.getText());
+
+
+    }
+}
+
+public class Transcript {
+
+    private String audio_url;
+    private String id;
+    private String status;
+    private String text;
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setAudio_url(String audio_url) {
+        this.audio_url = audio.url;
+    }
+
+    public String getAudio_url() {
+        return audio_url;
+    }
+}

@@ -1,0 +1,136 @@
+#复习
+Object oriented programming
+Java no multiple inheritance!
+
+4-pillars
+1. Encapsulation -> Getters and Setter
+2. Abstraction -> Interface
+3. Inheritance -> Extending classed
+4. Polymorphism -> Overriding and Overloading
+
+//IN JAVA
+
+public class OOP {
+    public static void mian(String[] args) {
+        //create new object
+        User u = new User(); //default constructor
+        //u.name = "bob";
+        //u.membership = "Gold";
+
+        //User u2 = new User();
+        //
+        System.out.println(u.name);
+
+        //Generic List
+        List<User> users = new ArrayList<User>();
+        //static variable
+        //-> User.admins = new ArrayList<User>();
+        //-> User.admins.add
+        users.add(new User());
+        System.out.println(users.get(0).get_name());
+
+        for (int i = 0; i < user.size(); i++) {
+            users.get(i);
+        }
+
+        for (User u : users) {
+            u.xxxxxx;
+        }
+
+        //->
+        User.print_admin();
+    }
+}
+
+public class User {
+    private String name;
+    private String membership;
+    int age;
+
+    public static List<User> admins;
+
+    //static method
+    public static void print_admin() {
+        for (User u : admins) {
+            print(xxxx)
+        }
+    }
+
+    @Override
+    public boolean equals(User u) {
+        if (get_name == u.get_name() && get_membership == u.get_membership) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return get_name() + ' ' + get_membership();
+    }
+    //default constructor
+    public User() {}
+
+    //constructor
+    public User(String name, String membership) {
+        set_name(name);
+        set_membership(membership);
+
+    }
+    void set_name(String name) {
+        this.name = name;
+    }
+
+    String get_name() {
+        return name;
+    }
+
+    void set_membership(String membershi n p) {
+        this.membership = membership;
+    }
+
+    //method overloading
+    void set_membership(Membership membership) {
+        this.membership = membership.name();
+    }
+
+    public enum Membership {
+        Bronze, Silver, Gold;
+    }
+
+    String get_membership() {
+        return membership;
+    }
+
+}
+
+public class XXX {
+    public static void main(String[] args) {
+        Student s = new Student();
+
+    }
+}
+
+Java not multiple inheritance!
+
+//Inheritance 方法都继承
+
+public class Student extends User {
+    private boolean verified = false;
+    void set_verified(boolean verified) {
+        this.verified = verified;
+    }
+
+    boolean get_verified() {
+        return verified;
+    }
+}
+
+public class Teacher extends User {
+    @Override
+    xxxxx
+}
+
+
+

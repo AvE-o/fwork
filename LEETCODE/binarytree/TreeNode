@@ -1,0 +1,452 @@
+public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode() {}
+    TreeNode(int val) {this.val = val;}
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+
+}
+
+#preorder
+
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<integer>();
+        preorder(root, result);
+
+    }
+    public void preorder(TreeNode root, List<Integer> result) {
+
+    if (root == null) {
+        return;
+     }
+        result.add(root.val);
+        preorder(root.left, result);
+        preorder(root.right, result);
+    }
+}
+
+#inorder
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<Integer>();
+
+    }
+
+    public void inorder(TreeNode root, List<Integer> result) {
+        inorder(root.left, result);
+        result.add(root.val);
+        inorder(root.right, result);
+    }
+}
+
+#postorder
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<Integer>();
+
+    }
+
+    public void postorder(TreeNode root, List<Integer> result) {
+        postorder(root.left, result);
+        postorder(root.right, result);
+        result.add(root.val);
+    }
+}
+
+// interactive method
+
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        stack.push(root);
+        //先加右后加左这样在左在stack上面
+        while (!stack.isEmpty()) {
+            TreeNode temp = stack.pop();
+            result.add(temp.val);
+            stack.push(temp.right); //这里需要判断null
+            stack.push(temp.left);
+
+        }
+        return result;
+    }
+
+}
+
+    inorder
+    List<Integer> result = new ArrayList<>();
+    if (root = null) {
+        return result;
+    }
+    Deque<TreeNode> stack = new ArrayDeque<>();
+    TreeNode cur = root;
+
+    while (cur != null || !stack.isEmpty()) {
+        if (cur != null) {
+            stack.push(cur);
+            cur = cur.left;
+        } else {
+            cur = stack.pop();
+            result.add(cur.val);
+            cur.right;
+        }
+    }
+
+public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(){};
+    TreeNode(int val) {this.val = val;}
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+#preorder
+
+public List<Integer> preorder(TreeNode root){
+    List<Integer> result = new ArrayList<>();
+    preorderT(root, result);
+    return(result);
+
+}
+
+public void preorderT(TreeNode root, List<Integer> result) {
+    if (root.val == null) {
+        return;
+    }
+    result.add(root.val);
+    preorderT(root.left, result);
+    preorderT(root.right, result);
+}
+
+#层序便利 (BFS)
+class Solution {
+    public List<List<Integer>> list = new ArrayList<List<Integer>>();
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        BFS(root);
+        return list;
+
+    }
+    public void BFS(TreeNode root, Queue<Integer> queue) {
+        Queue<TreeNode> que = new LinkedList<TreeNode>();
+        que.offer(root);
+
+        while (!que.isEmpty()) {
+            List<Integer> item = ArrayList<>();
+            int len = que.size;
+
+            while (len > 0) {
+                TreeNode temp = que.poll();
+                item.add(temp.val);
+                if (tmpNode.left != null) que.offer(tmpNode.left);
+                if (tmpNode.right != null) que.offer(tmpNode.right);
+                len--;
+            }
+            list.add(item);
+
+        }
+
+    }
+}
+
+#226 Invert Binary Tree
+//root 不变(位置0)
+left 2*i - 1 ?
+right 2*i + 1?
+
+BFS + 改变位置
+
+//BFS
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) {return;}
+        ArrayDeque<TreeNode> deque = new ArrayDeque<>();
+        deque.offer(root);
+
+        while (!deque.isEmpty()) {
+            int size = deque.size();
+
+            while (size-- > 0) {
+                TreeNode node = deque.poll();
+                swap(node);
+                if (node.left != null)deque.offer(root.left);
+                if (node.left != null)deque.offer(root.right);
+            }
+
+        }
+        return root;
+    }
+    public void swap(TreeNode root) {
+        TreeNode temp = root;
+        root.left = root.right;
+        root.right = temp.left;
+    }
+
+}
+
+//DFS preorder
+
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        invertTree(root.left);
+        invertTree(root.right);
+        swap(root);
+        return root;
+    }
+        public void swap(TreeNode root) {
+            TreeNode temp = root;
+            root.left = root.right;
+            root.right = temp.left;
+        }
+}
+
+//BFS
+
+public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode() {}
+    TreeNode(int val) {
+        this.val = val;
+    }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val
+        this.left = left;
+        this.right = right;
+    }
+
+}
+
+#101 Symmetric Tree
+//postorder
+Class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        return checkSymmetric(root);
+    }
+
+    public boolean checkSymmetric(TreeNode left, TreeNode right) {
+        if (left == null && right != null) {
+            return false;
+        } if (left != null && right == null) {
+            return true;
+        } if (left == null && right == null) {
+            return true;
+        } if (left.val != right.val) {
+            return false;
+        }
+
+        //outside
+        boolean inside = compare(left.left, right.right);
+        //inside
+        boolean outside = compare(left.right, right.left);
+        //
+        return inside && outside;
+    }
+
+
+}
+
+#104.Maximum Depth of Binary Tree
+//错了!
+class Solution {
+    public int maxDepth(TreeNode root) {
+        return goDeep(root);
+
+    }
+    public int goDeep(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        int left = (goDeep.left);
+        int right = (goDeep.right);
+        val++;
+        return val;
+    }
+}
+
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+        return max(leftDepth, rightDepth) + 1;
+    }
+}
+
+#111.Minimum Depth of Binary Tree
+class Solution {
+    public int minDepth(TreeNode root) {
+        if (root = null) {
+            return 0;
+        }
+        int minLeft = minDepth(root.left);
+        int minRight = minDepth(root.right);
+        if (root.left == null && root.right != null) {
+            return minRight + 1;
+        } if (root.left != null && root.right == null) {
+            return minLeft + 1;
+        }
+        return Math.min(minLeft, minRight) + 1;
+    }
+
+
+}
+
+#222 Count Complete Tree Nodes
+//错了应该用queue
+class Solution {
+    public int countNodes(TreeNode root) {
+        int count = 0;
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        stack.push(root);
+        while (!stack.isEmpty) {
+            TreeNode temp = stack.pop();
+            count++;
+            if (temp.right != null) {stack.push(temp.right);}
+            if (temp.left != null) {stack.push(temp.left)};
+        }
+
+    }
+}
+
+class Solution {
+    public int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int countLeft = countNodes(root.left);
+        int countRight = countNodes(root.right);
+        return countLeft + countRight + 1;
+    }
+}
+
+class Solution {
+    public int countNodes(TreeNode root) {
+        int result = 0;
+        deque<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while (!queue.isEmpty) {
+            int size = queue.size();
+            while (size-- > 0) {
+                TreeNode temp = queue.pop();
+                result++;
+                if (temp != null) queue.offer(temp.left);
+                if (temp != null) queue.offer(temp.right);
+            }
+        }
+
+        return result;
+    }
+}
+
+class Solution {
+    //full binary tree 2^depth - 1
+    public int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        TreeNode left = root.left;
+        TreeNode right = root.right;
+        int leftDepth = 0;
+        int right Depth = 0;
+        while (left != null) {
+            left = left.left;
+            leftDepth++;
+        }
+        while (right != null) {
+            right = right.right;
+            rightDepth++;
+        }
+        if (leftDepth == rightDepth) {
+            return ((leftDepth ^ 2) - 1);
+        }
+        return countNodes(root.left) + countNodes(root.right) + 1;
+    }
+}
+
+#110.Balanced Binary Tree
+class Solution {
+    //check to see if the depth of subtree is more than 1 or not
+    public boolean isBalanced(TreeNode root) {
+
+    }
+
+    public int getHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftHeight = getHeight(root.left);
+        if (leftHeight == - 1) {
+            return -1;
+        }
+        int rightHeight = getHeight(root.right);
+        if (rightHeight == -1) {
+            return - 1;
+        }
+        if (Math.abs(leftHeight - rightHeight) > 0) {
+            return - 1;
+        }
+        return Math.max(leftHeight, rightHeight) + 1;
+
+
+    }
+}
+
+#257.Binary Tree Paths
+
+class Solution {
+    //DFS 返回所哟路径
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        List<Integer> paths = new ArrayList<>();
+        traversal(root, paths, res);
+        return res;
+
+    }
+    private void traversal(TreeNode root, List<Integer> paths, List<String> res) {
+        paths.add(root.val); //中
+        if (root.left == null && root.right == null) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < paths.size() - 1; i++) {
+                sb.append(paths.get(i)).append('->');
+            }
+            sb.append(paths.get(path.size() - 1));
+            res.add(sb.toString());
+            return;
+        }
+        if (root.left != null) {
+            traversal(root.left, paths, res);
+            paths.remove(paths.size() - 1);
+        }
+        if (root.right != null) {
+            traversal(root.right, paths, res);
+            paths.remove(paths.size() - 1);
+        }
+    }
+
+}
