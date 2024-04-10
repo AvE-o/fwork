@@ -438,3 +438,134 @@ password varchar(64) NOT NULL DEFAULT 'default' COMMENT '密码',
 email varchar(64) NOT NULL DEFAULT 'default' COMMENT '邮箱'
 ) COMMENT='用户表';
 
+
+索引(INDEX)
+
+优点：
+
+使用索引可以大大加快数据的检索速度（大大减少检索的数据量）, 减少 IO 次数，这也是创建索引的最主要的原因。
+通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。
+
+缺点：
+
+创建索引和维护索引需要耗费许多时间。当对表中的数据进行增删改的时候，如果数据有索引，那么索引也需要动态的修改，会降低 SQL 执行效率。
+索引需要使用物理文件存储，也会耗费一定空间。
+
+BTree索引最常见 
+
+按照使用维度划分索引
+主键索引：加速查询 + 列值唯一（不可以有 NULL）+ 表中只有一个。
+普通索引：仅加速查询。
+唯一索引：加速查询 + 列值唯一（可以有 NULL）。
+
+主键索引(Primary Key):
+一张数据表有只能有一个主键，并且主键不能为 null，不能重复。
+
+二级索引(Secondary Index):
+通过二级索引可以定位主键的位置，二级索引又称为辅助索引/非主键索引
+唯一索引(Unique Key):
+唯一索引也是一种约束。唯一索引的属性列不能出现重复的数据，但是允许数据为 NULL，一张表允许创建多个唯一索引。 
+建立唯一索引的目的大部分时候都是为了该属性列的数据的唯一性，而不是为了查询效率
+普通索引(Index):普通索引的唯一作用就是为了快速查询数据，一张表允许创建多个普通索引，并允许数据重复和 NULL
+前缀索引(Prefix):前缀索引只适用于字符串类型的数据。前缀索引是对文本的前几个字符创建索引，相比普通索引建立的数据更小，因为只取前几个字符
+全文索引(Full Text):全文索引主要是为了检索大文本数据中的关键字的信息，是目前搜索引擎数据库使用的一种技术。Mysql5.6 之前只有 MYISAM 引擎支持全文索引，5.6 之后 InnoDB 也支持了全文索引
+
+聚簇索引（Clustered Index）
+索引结构和数据一起存放的索引，并不是一种单独的索引类型。InnoDB 中的主键索引就属于聚簇索引
+pro
+查询速度非常快
+对排序查找和范围查找优化
+con
+依赖于有序的数据
+更新代价大
+
+非聚簇索引(Non-Clustered Index)
+
+pro
+更新代价比聚簇索引要小 。非聚簇索引的更新代价就没有聚簇索引那么大了，非聚簇索引的叶子节点是不存放数据的
+
+con
+跟聚簇索引一样，非聚簇索引也依赖于有序的数据
+这应该是非聚簇索引最大的缺点了。 当查到索引对应的指针或主键后，可能还需要根据指针或主键再到数据文件或表中查询
+
+覆盖索引（Covering Index)
+
+覆盖索引即需要查询的字段正好是索引的字段，那么直接根据该索引，就可以查到数据了，而无需回表查询
+
+联合索引(Compound Index)
+
+CREATE TABLE `student` (
+  `id` int NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `class` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `name_class_idx` (`name`,`class`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+索引下推（Index Condition Pushdown)
+
+
+索引使用指南(!!!)
+
+合适:
+
+不为 NULL 的字段：索引字段的数据应该尽量不为 NULL，因为对于数据为 NULL 的字段，数据库较难优化。如果字段频繁被查询，但又避免不了为 NULL，建议使用 0,1,true,false 这样语义较为清晰的短值或短字符作为替代。
+被频繁查询的字段：我们创建索引的字段应该是查询操作非常频繁的字段。被作为条件查询的字段：
+被作为 WHERE 条件查询的字段，应该被考虑建立索引。频繁需要排序的字段：
+索引已经排序，这样查询可以利用索引的排序，加快排序查询时间。
+被经常频繁用于连接的字段：经常用于连接的字段可能是一些外键列，对于外键列并不一定要建立外键，只是说该列涉及到表与表的关系。对于频繁被连接查询的字段，可以考虑建立索引，提高多表连接查询的效率
+
+不合适:
+被频繁更新的字段
+
+
+索引并不是越多越好，建议单张表索引不超过 5 个！索引可以提高效率同样可以降低效率。
+索引可以增加查询效率，但同样也会降低插入和更新的效率，甚至有些情况下会降低查询效率。
+
+尽可能的考虑建立联合索引而不是单列索引
+注意避免冗余索引
+字符串类型的字段使用前缀索引代替普通索引
+删除长期未使用的索引，不用的索引的存在会造成不必要的性能损耗。
+
+知道如何分析语句是否走索引查询
+我们可以使用 EXPLAIN 命令来分析 SQL 的 执行计划 
+
+
+索引例子:
+ex
+CREATE INDEX user_index
+ON user (id);
+
+ALTER table user ADD INDEX user_index(id);
+
+CREATE UNIQUE INDEX user_index
+ON user (id);
+
+ALTER TABLE user
+DROP INDEX user_index;
+
+
+约束(Constraints)
+
+事务处理
+
+不能回退 SELECT 语句，回退 SELECT 语句也没意义；也不能回退 CREATE 和 DROP 语句。
+MySQL 默认是隐式提交，每执行一条语句就把这条语句当成一个事务然后进行提交
+
+START TRANSACTION;
+
+INSERT INTO 'user'
+VALUES (1, 'root', 'root@xxx.com');
+
+SAVEPOINT updateA;
+
+INSERT INTO 'user'
+VALUES (2, 'root2', 'root2@gmail.com');
+
+ROLLBACK TO updateA;
+ 提交事务，只有操作 A 生效
+COMMIT;
+
+
+权限控制
