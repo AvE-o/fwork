@@ -168,3 +168,273 @@ SELECT
 DISTINCT 用于返回唯一不同的值。它作用于所有列，也就是说所有列的值都相同才算相同
 LIMIT 限制返回行数
 ASC 升序(默认)
+DESC 降序
+
+//单列查询
+SELECT prod_name
+FROM products;
+
+//多列查询
+SELECT prod_id, prod_name, prod_price
+FROM products;
+
+//查询所有列
+SELECT * 
+FROM products;
+
+//查询不同值
+SELECT DISTINCT vend_id
+FROM products;
+
+//限制查询结果
+前五
+SELECT * FROM mytable LIMIT 5;
+//从第零条开始返回五个
+SELECT * FROM mytable LIMIT 0, 5;
+3-5行
+//从第二行开始返回3个
+SELECT * FROM mytable LIMIT 2, 3;
+
+排序
+ORDER BY
+SELECT * FROM products
+ORDER BY prod_price desc, prod_name ASC;
+
+分组
+GROUP BY
+group by：
+
+group by 子句将记录分组到汇总行中。
+group by 为每个组返回一个记录。
+group by 通常还涉及聚合count，max，sum，avg 等。
+group by 可以按一列或多列进行分组。
+group by 按分组字段进行排序后，order by 可以以汇总字段来进行排序。
+
+//分组
+SELECT cust_name, COUNT(cust_address) AS addr_num
+FROM Customers GROUP BY cust_name;
+
+//分组后排序
+SELECT cust_name, COUNT(cust_address) AS addr_num
+FROM CUstomers GROUP BY cust_name
+ORDER BY cust_name DESC;
+
+having:
+-having 用于对汇总的 group by 结果进行过滤
+-having 一般都是和 group by 连用
+-where 和 having 可以在相同的查询中
+
+SELECT cust_name, COUNT(*) AS num
+FROM Customers
+WHERE cust_email IS NOT NULL
+GROUP BY cust_name
+HAVING COUNT(*) >= 1
+
+having vs where：
+where 前, having 后
+where：过滤过滤指定的行，后面不能加聚合函数（分组函数）。where 在group by 前。
+having：过滤分组，一般都是和 group by 连用，不能单独使用。having 在 group by 之后。
+
+子查询
+用于 FROM 的子查询返回的结果相当于一张临时表，所以需要使用 AS 关键字为该临时表起一个名字
+
+SELECT cust_name, cust_contact
+FROM customers
+WHERE cust_id IN (SELECT cust_id
+                    FROM orders
+                    WHERE order_num IN (SELECT order_num
+                                        FROM orderitems
+                                        WHERE prod_id = 'RGAN01'));
+
+WHERE
+WHERE 子句用于过滤记录，即缩小访问数据的范围。
+WHERE 后跟一个返回 true 或 false 的条件。
+WHERE 可以与 SELECT，UPDATE 和 DELETE 一起使用。
+可以在 WHERE 子句中使用的操作符。
+
+ex
+SELECT * FROM Customers
+WHERE cust_name = 'Kids Place';
+
+UPDATE Customers
+SET cust_name = 'Jack Jones'
+WHERE cust_name = 'Kids Place';
+
+DELETE FROM Customers
+WHERE cust_name = 'Kids Place';
+
+IN & BETWEEN
+IN 操作符在 WHERE 子句中使用，作用是在指定的几个特定值中任选一个值
+BETWEEN 操作符在 WHERE 子句中使用，作用是选取介于某个范围内的值
+
+SELECT *
+FROM products
+WHERE vend_id IN ('DLL01', 'BRS01');
+
+SELECT *
+FROM products
+WHERE prod_price BETWEEN 3 AND 5;
+
+AND,OR,NOT
+AND、OR、NOT 是用于对过滤条件的逻辑处理指令。
+AND 优先级高于 OR，为了明确处理顺序，可以使用 ()。
+AND 操作符表示左右条件都要满足。
+OR 操作符表示左右条件满足任意一个即可。
+NOT 操作符用于否定一个条件。
+
+ex.
+SELECT prod_id, prod_name, prod_price
+FROM products
+WHERE vend_id = 'DLL01' AND prod_price <= 4;
+
+SELECT prod_id, prod_name, prod_price
+FROM products
+WHERE vend_id = 'DLL01' OR prod_price <= 4;
+
+SELECT *
+FROM products
+WHERE prod_price NOT BETWEEN 3 AND 5;
+
+LIKE
+LIKE 操作符在 WHERE 子句中使用，作用是确定字符串是否匹配模式。
+只有字段是文本值时才使用 LIKE。
+LIKE 支持两个通配符匹配选项：% 和 _。
+不要滥用通配符，通配符位于开头处匹配会非常慢。
+% 表示任何字符出现任意次数。
+_ 表示任何字符出现一次。
+
+ex.
+SELECT prod_id, prod_name, prod_price
+FROM products
+WHERE prod_name LIKE '%bean bag%'
+
+SELECT prod_id, prod_name, prod_price
+FROM products
+WHERE prod_name LIKE '__ inch teddy bear';
+
+连接(重点JOIN)
+JOIN 是“连接”的意思，顾名思义，SQL JOIN 子句用于将两个或者多个表联合起来进行查询
+
+//基本语法
+select table1.column1, table2.column2...
+from table1
+join table2
+on table1.common_column1 = table2.common_column2;
+
+# join....on
+select c.cust_name, o.order_num
+from Customers c
+inner join Orders o
+on c.cust_id = o.cust_id
+order by c.cust_name;
+
+# 如果两张表的关联字段名相同，也可以使用USING子句：join....using()
+select c.cust_name, o.order_num
+from Customers c
+inner join Orders o
+using(cust_id)
+order by c.cust_name;
+
+我还是喜欢on
+ON 和 WHERE 的区别：
+
+连接表时，SQL 会根据连接条件生成一张新的临时表。ON 就是连接条件，它决定临时表的生成。
+WHERE 是在临时表生成以后，再对临时表中的数据进行过滤，生成最终的结果集，这个时候已经没有 JOIN-ON 了。
+
+!!!SQL 先根据 ON 生成一张临时表，然后再根据 WHERE 对临时表进行筛选。
+
+
+# 隐式内连接
+select c.cust_name, o.order_num
+from Customers c, Orders o
+where c.cust_id = o.cust_id
+order by c.cust_name;
+
+# 显式内连接
+select c.cust_name, o.order_num
+from Customers c inner join Orders o
+using(cust_id)
+order by c.cust_name;
+
+组合(UNION)
+UNION 运算符将两个或更多查询的结果组合起来，并生成一个结果集，其中包含来自 UNION 中参与查询的提取行
+UNION 基本规则：
+
+所有查询的列数和列顺序必须相同。
+每个查询中涉及表的列的数据类型必须相同或兼容。
+通常返回的列名取自第一个查询。
+
+SELECT column_name(s) FROM table1
+UNION ALL
+SELECT column_name(s) FROM table2;
+
+JOIN vs UNION：
+
+JOIN 中连接表的列可能不同，但在 UNION 中，所有查询的列数和列顺序必须相同。
+UNION 将查询之后的行放在一起（垂直放置），但 JOIN 将查询之后的列放在一起（水平放置），即它构成一个笛卡尔积。
+
+函数
+不同数据库的函数往往各不相同，因此不可移植。本节主要以 MySQL 的函数为例
+
+LEFT()、RIGHT()	左边或者右边的字符
+LOWER()、UPPER()	转换为小写或者大写
+LTRIM()、RTRIM()	去除左边或者右边的空格
+LENGTH()	长度，以字节为单位
+SOUNDEX()	转换为语音值
+
+日期&格式
+日期格式：YYYY-MM-DD
+时间格式：HH:MM:SS
+
+AddDate()	增加一个日期（天、周等）
+AddTime()	增加一个时间（时、分等）
+CurDate()	返回当前日期
+CurTime()	返回当前时间
+Date()	返回日期时间的日期部分
+DateDiff()	计算两个日期之差
+Date_Add()	高度灵活的日期运算函数
+Date_Format()	返回一个格式化的日期或时间串
+Day()	返回一个日期的天数部分
+DayOfWeek()	对于一个日期，返回对应的星期几
+Hour()	返回一个时间的小时部分
+Minute()	返回一个时间的分钟部分
+Month()	返回一个日期的月份部分
+Now()	返回当前日期和时间
+Second()	返回一个时间的秒部分
+Time()	返回一个日期时间的时间部分
+Year()	返回一个日期的年份部分
+
+数值处理
+SIN()	正弦
+COS()	余弦
+TAN()	正切
+ABS()	绝对值
+SQRT()	平方根
+MOD()	余数
+EXP()	指数
+PI()	圆周率
+RAND()	随机数
+
+汇总
+AVG()	返回某列的平均值
+COUNT()	返回某列的行数
+MAX()	返回某列的最大值
+MIN()	返回某列的最小值
+SUM()	返回某列值之和
+注: AVG() 会忽略NULL
+
+
+DDL 语法
+数据库
+CREATE DATABASE test;
+DROP DATABASE test;
+USE test;
+
+数据表（TABLE）
+CREATE TABLE user (
+id int(10) unsigned NOT NULL COMMENT 'Id',
+username varchar(64) NOT NULL DEFAULT 'default' COMMENT '用户名',
+password varchar(64) NOT NULL DEFAULT 'default' COMMENT '密码',
+email varchar(64) NOT NULL DEFAULT 'default' COMMENT '邮箱'
+) COMMENT='用户表';
+
