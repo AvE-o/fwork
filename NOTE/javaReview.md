@@ -753,3 +753,114 @@ try (InputStream fis = new FileInputStream("input.txt")) {
 } catch (IOException e) {
     e.printStackTrace();
 }
+
+
+
+###一些重点
+重载(Overload)和重写(Overwrite)有什么区别
+
+重载就是同样的一个方法能够根据输入数据的不同，做出不同的处理
+重写就是当子类继承自父类的相同方法，输入数据一样，但要做出有别于父类的响应时，你就要覆盖父类方法 [外部样子不能改变，内部逻辑可以改变]
+
+面向对象基础
+另外，面向对象开发的程序一般更易维护、易复用、易扩展
+
+构造方法(constructor)
+名字与类名相同
+没有返回值
+生成类对象时自动执行
+Can not be override but can be overload
+
+面向对象三大特征
+封装
+Getter & Setter
+封装是指把一个对象的状态信息（也就是属性）隐藏在对象内部，不允许外部对象直接访问对象的内部信息
+
+继承
+子类拥有父类对象所有的属性和方法（包括私有属性和私有方法），但是父类中的私有属性和方法子类是无法访问，只是拥有
+子类可以拥有自己属性和方法，即子类可以对父类进行扩展
+
+多态
+
+
+接口和抽象类
+
+== 和 equals() 区别
+对于基本数据类型来说，== 比较的是值。
+对于引用数据类型来说，== 比较的是对象的内存地址
+S
+
+String, StringBuffer, StringBuilder
+
+异常
+Throwable
+Exception   Error
+
+Exception :程序本身可以处理的异常，可以通过 catch 来进行捕获
+Error：Error 属于程序无法处理的错误 
+
+try-catch-finally 如何使用
+
+try {
+    System.out.println("Try to do something");
+    throw new RuntimeException("RuntimeException");
+} catch (Exception e) {
+    System.out.println("Catch Exception -> " + e.getMessage());
+} finally {
+    System.out.println("Finally");
+}
+finally 块里的语句都会被执行。当在 try 块或 catch 块中遇到 return 语句时，finally 语句块将在方法返回之前被执行
+不要在 finally 语句块中使用 return
+
+finally 之前虚拟机被终止运行的话，finally 中的代码就不会被执行
+程序所在的线程死亡。
+关闭 CPU
+
+JAVA pass by value
+
+JAVA garbage collection
+但是并不推荐下面做法
+大量对象的创建和销毁时，手动触发垃圾回收可以帮助释放内存并提高应用程序的性能
+
+
+JAVA 集合(Collection)
+
+Collection Framework -> Set List Queue
+Map Framework -> Map
+
+List 储存元素有序,可重复
+Set 储存元素不可重复
+Queue 特定顺序 FIFO
+Map Key,Value pair -> KEY non order but not repeatable, VALUE non order can be repeatable
+
+List
+ArrayList: Object[]
+Vector: Object[]
+LinkedList
+
+Set
+HashSet
+LinkedHashSet
+TreeSet
+
+Queue
+PriorityQueue: Object[]
+DelayQueue
+ArrayDeque
+
+Map
+HashMap
+LinkedHashMap
+Hashtable
+TreeMap
+
+Array vs ArrayList
+
+ArrayList ->Thread NON safe
+Vector ->Thread safe
+
+Map
+HashMap and Hashtable
+for (Map.Entry<Integer, String> entry : map.entrySet())
+
+list.toArray(new String[0]);
